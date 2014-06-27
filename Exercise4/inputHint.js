@@ -1,8 +1,8 @@
-/*Input hint on search inputbox*/
+/*Input hint on search inputbox and add remove class on the basis of event*/
 $(function() {
   var labelText = $('label[for = "q"]').text();
   $('.input_text').val(labelText).addClass("hint");
-  $('label').remove();
+  $('label[for = "q"]').remove();
   $('.input_text').on({
     focus: function () {
         $(this).val("").removeClass("hint");
