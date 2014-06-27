@@ -12,9 +12,7 @@ $(function() {
   $('.input_text').on({
     // Bind a focus event to the search input that removes the hint text and the "hint" class
     focus: function () {
-      if ($(this).val().trim() === labelText) {
         $(this).val("").removeClass("hint");
-      }
     },
     // Bind a blur event to the search input that restores the hint text and "hint" class if no search text was entered
     blur: function () {
