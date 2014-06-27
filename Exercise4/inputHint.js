@@ -12,7 +12,7 @@ $(function() {
   $('.input_text').on({
     // Bind a focus event to the search input that removes the hint text and the "hint" class
     focus: function () {
-      if ($(this).val().trim() === labelText) {
+      if ($(this).val().trim() == labelText) {
         $(this).val("").removeClass("hint");
       }
     },
