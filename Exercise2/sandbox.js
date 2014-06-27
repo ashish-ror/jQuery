@@ -23,11 +23,11 @@ $( document ).ready(function() {
   
   $('#specials select').css('border', '5px solid yellow')
                        .closest('form')
-                       .find(':input:submit')
+                       .find('input[type="submit"]')
                        .css('border', '5px solid yellow');
 
   //Q.5) Select the first list item in the #slideshow element; add the class "current" to it, and then add a class of "disabled" to its sibling elements.
-  $('#slideshow li:first').css('border', '5px solid orange')
+  $('#slideshow li').eq(0).css('border', '5px solid orange')
                           .addClass('current')
                           .css('border', '5px solid orange')
                           .siblings()
