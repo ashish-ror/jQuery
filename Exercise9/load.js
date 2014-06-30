@@ -14,7 +14,7 @@ $(document).ready(function () {
   $blogHeadingElement.click(function (event) {
     var $blogHeading = $(this);
     event.preventDefault();
-    $targetURL = $blogHeading.children('a').attr('href');
+    $targetURL = $blogHeading.find('a').attr('href');
     $targetURL = 'data/' + $targetURL.replace('#', " #");
     $blogHeading.data('reference').load($targetURL);
   });
