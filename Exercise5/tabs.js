@@ -9,10 +9,12 @@ $(document).ready(function() {
     
   // Q.3) Iterate over the modules using $.fn.each. For each module, use the text of the h2 element as the text for a list item that you add to the unordered list element.
   var $modulesHeaderElement = $modules.find('h2');
+  var listElementArray = [];
   $modulesHeaderElement.each(function() {
     var headerText = $(this).text();
-    $('<li>').text(headerText).appendTo($unorderedListElement);
+    listElementArray.push($('<li>').text(headerText));
   });
+  $unorderedListElement.append(listElementArray);
 
   var $modulesListElement = $unorderedListElement.find('li');
   
