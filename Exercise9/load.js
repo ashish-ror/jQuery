@@ -8,7 +8,7 @@ $(document).ready(function () {
     var $blogHeading = $(this),
       $targetDiv = $('<div>').insertAfter($blogHeading);
     $blogHeading.data('reference', $targetDiv);
-  })
+  });
   //Bind a click event to the headline that will use the $.fn.load
   //method to load the appropriate content from /exercises/data/blog.html into the target div.
   $blogHeadingElement.click(function (event) {
@@ -19,7 +19,3 @@ $(document).ready(function () {
     $blogHeading.data('reference').load($targetURL);
   });
 });
-
-
-
-
