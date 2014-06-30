@@ -74,11 +74,3 @@ $(document).ready(function () {
     slideShow = new SlideShow($slideShowDiv, $listElements);
   slideShow.start();
 });
-
-  
-
-  
-
-  
-
-
