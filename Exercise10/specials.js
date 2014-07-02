@@ -47,7 +47,6 @@ JsonContent.prototype = {
     this.specialsDiv.find(".buttons").remove();
   },
   
-
   //Ajax request to /exercises/data/specials.json.
   loadData :function () {
     var that = this;
@@ -56,7 +55,7 @@ JsonContent.prototype = {
       dataType: "json",
       url: this.sourceURL,
       async : false,
-    })
+    });
   }
 };
 
