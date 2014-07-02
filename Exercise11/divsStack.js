@@ -1,3 +1,4 @@
+/*Stack of Divs*/
 var Stack = function ($addButton, $containerElement) {
   this.addButton = $addButton;
   this.containerElement = $containerElement;
@@ -24,7 +25,7 @@ Stack.prototype = {
     $divElement.prependTo(this.containerElement);
   },
 
-  //method to higlight div 
+  //method to higlight div
   highlightDiv : function ($divElement) {
       $divElement.toggleClass('highlight');
   },
@@ -36,9 +37,9 @@ Stack.prototype = {
       this.divCount -= 1;
     }
   }
-}
+};
 
-$(document).ready(function () {
+$(function() {
   stack = new Stack($("#add"), $("#container"));
   stack.bindEvents();
-})
+});
