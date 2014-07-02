@@ -1,0 +1,25 @@
+.list{
+  list-style-type: none;
+  width: 350px;
+  margin-right: 50px;
+  border: 2px solid black;
+  display: inline-block;
+  text-align: center;
+}
+
+li {
+  background: #AFB8CC;
+  cursor: move;
+  font-size: 1.25em;
+  width: 280px;
+  padding: 0px;
+  margin: 5px;
+}
+
+.selected {
+  background: black;
+}
+
+ul {
+  list-style-type: none;
+}
