@@ -17,17 +17,19 @@ JsonContent.prototype = {
   bindEvent : function () {
     var that = this;
     this.selectElement.change(function () {
+      that.selectedDay = $(this).val();
       if(!that.jsonData) {
         that.loadData();
+      } else {
+        that.displayData();
       }
-      that.displayData($(this).val());
     });
   },
 
   //Add some HTML about the special to the target div you created.
   displayData : function (selectedDay) {
-    if(selectedDay) {
-      this.targetDiv.html("Title: " + this.jsonData[selectedDay].title + " <br>Text: " + this.jsonData[selectedDay].text);
+    if(this.selectedDay) {
+      this.targetDiv.html("Title: " + this.jsonData[this.selectedDay].title + " <br>Text: " + this.jsonData[this.selectedDay].text);
     } else {
       this.targetDiv.text("");
     }
@@ -54,16 +56,15 @@ JsonContent.prototype = {
       type: "get",
       dataType: "json",
       url: this.sourceURL,
-      async : false,
     });
   }
 };
 
 $(function() {
-  var targetURL = 'data/specials.json',
-    jsonContent = new JsonContent("data/specials.json", $("#specials"));
+  var jsonContent = new JsonContent("data/specials.json", $("#specials"));
   jsonContent.init();
-  $( document ).ajaxSuccess(function (event, xhr) {
+  $(document).ajaxSuccess(function (event, xhr) {
     jsonContent.updateData(xhr.responseJSON);
+    jsonContent.displayData();
   });
 });
