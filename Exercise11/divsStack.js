@@ -8,7 +8,7 @@ Stack.prototype = {
   //method to bind create and add event on add button click
   bindEvents : function () {
     var that = this;
-    this.addButton.click(function() {
+    this.addButton.click(function () {
       that.createAndAddDiv();
     });
     this.containerElement.on('click', 'div', function() {
@@ -27,19 +27,19 @@ Stack.prototype = {
 
   //method to higlight div
   highlightDiv : function ($divElement) {
-      $divElement.toggleClass('highlight');
+    $divElement.toggleClass('highlight');
   },
-  
+
   //method to remove topmost div if clicked
   removeDiv : function ($divElement) {
-    if(this.divCount == $divElement.text()) {
+    if (this.divCount == $divElement.text()) {
       $divElement.remove();
       this.divCount -= 1;
     }
   }
 };
 
-$(function() {
+$(function () {
   stack = new Stack($("#add"), $("#container"));
   stack.bindEvents();
 });
