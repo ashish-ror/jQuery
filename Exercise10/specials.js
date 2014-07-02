@@ -1,15 +1,13 @@
 /*Load Content using JSON*/
-var JsonContent = function (sourceURL, $specialsDiv) {
+var ContentManager = function (sourceURL, $specialsDiv) {
   this.specialsDiv = $specialsDiv;
   this.selectElement = $specialsDiv.find('select');
   this.sourceURL = sourceURL;
-  this.jsonData = "";
 };
 
-JsonContent.prototype = {
+ContentManager.prototype = {
   init : function () {
     this.insertDiv();
-    this.removeSubmitButton();
     this.bindEvent();
   },
 
@@ -19,7 +17,7 @@ JsonContent.prototype = {
     this.selectElement.change(function () {
       that.selectedDay = $(this).val();
       if(!that.jsonData) {
-        that.loadData();
+        that.loadJsonData();
       } else {
         that.displayData();
       }
@@ -27,21 +25,23 @@ JsonContent.prototype = {
   },
 
   //Add some HTML about the special to the target div you created.
-  displayData : function (selectedDay) {
+  displayData : function () {
     if(this.selectedDay) {
-      this.targetDiv.html("Title: " + this.jsonData[this.selectedDay].title + " <br>Text: " + this.jsonData[this.selectedDay].text);
+      this.targetDiv.html("Title: " + this.jsonData[this.selectedDay].title + " <br>Text: " + this.jsonData[this.selectedDay].text)
+                    .attr('style', 'color:' + this.jsonData[this.selectedDay].color)
+                    .append('<br/><img src="' + this.replaceFirstCharacterOfString(this.jsonData[this.selectedDay].image) + '" />');
     } else {
       this.targetDiv.text("");
     }
   },
 
-  updateData : function (responseJson) {
-    this.jsonData = responseJson;
+  replaceFirstCharacterOfString : function (str) {
+    return str.substring(0, 0) + "" + str.substring(1);
   },
 
   // Append a target div after the form that's inside the #specials element;
   insertDiv : function () {
-    this.targetDiv = $("<div>").insertAfter(this.selectElement.closest("form"));
+    this.targetDiv = $("<div>").insertAfter(this.specialsDiv.find("form"));
   },
 
   //Ajax-enabled, remove the submit button from the form.
@@ -50,21 +50,21 @@ JsonContent.prototype = {
   },
   
   //Ajax request to /exercises/data/specials.json.
-  loadData :function () {
+  loadJsonData :function () {
     var that = this;
     $.ajax({
       type: "get",
       dataType: "json",
       url: this.sourceURL,
+    }).done(function(data, textStatus, jqXHR){
+      that.jsonData = jqXHR.responseJSON;
+      that.displayData();
     });
   }
 };
 
 $(function() {
-  var jsonContent = new JsonContent("data/specials.json", $("#specials"));
-  jsonContent.init();
-  $(document).ajaxSuccess(function (event, xhr) {
-    jsonContent.updateData(xhr.responseJSON);
-    jsonContent.displayData();
-  });
+  var contentManager = new ContentManager("data/specials.json", $("#specials"));
+  contentManager.removeSubmitButton();
+  contentManager.init();
 });
