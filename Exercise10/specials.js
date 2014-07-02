@@ -1,19 +1,15 @@
 /*Load Content using JSON*/
-var JsonContent = function (targetURL, $selectElement, $specialsDivElement) {
-  this.selectElement = $selectElement;
-  this.specialsDivElement = $specialsDivElement;
-  this.targetURL = targetURL;
-  this.data = "";
+var JsonContent = function (sourceURL, $specialsDiv) {
+  this.specialsDiv = $specialsDiv;
+  this.selectElement = $specialsDiv.find('select');
+  this.sourceURL = sourceURL;
+  this.jsonData = "";
 };
 
 JsonContent.prototype = {
-  load : function () {
+  init : function () {
     this.insertDiv();
     this.removeSubmitButton();
-    var isDataNotCached = this.isCachedData();
-    if (isDataNotCached) {
-      this.loadData();
-    }
     this.bindEvent();
   },
 
@@ -21,59 +17,54 @@ JsonContent.prototype = {
   bindEvent : function () {
     var that = this;
     this.selectElement.change(function () {
-      this.selectedDay = $(this).val();
-      that.displayData(this.selectedDay);
+      if(!that.jsonData) {
+        that.loadData();
+      }
+      that.displayData($(this).val());
     });
   },
 
   //Add some HTML about the special to the target div you created.
   displayData : function (selectedDay) {
     if(selectedDay) {
-        this.targetDiv.html("Title: " + this.data[selectedDay].title + " <br>Text: " + this.data[selectedDay].text);
+      this.targetDiv.html("Title: " + this.jsonData[selectedDay].title + " <br>Text: " + this.jsonData[selectedDay].text);
     } else {
-        this.targetDiv.text('');
+      this.targetDiv.text("");
     }
   },
 
-  updateData : function (data) {
-    this.data = data;
+  updateData : function (responseJson) {
+    this.jsonData = responseJson;
   },
 
   // Append a target div after the form that's inside the #specials element;
   insertDiv : function () {
-    this.targetDiv = $('<div>').insertAfter(this.selectElement.closest('form'));
+    this.targetDiv = $("<div>").insertAfter(this.selectElement.closest("form"));
   },
 
   //Ajax-enabled, remove the submit button from the form.
   removeSubmitButton : function () {
-    this.specialsDivElement.find('.buttons').remove();
+    this.specialsDiv.find(".buttons").remove();
   },
   
-  isCachedData :function () {
-    if(!this.data) {
-      return true;
-    }
-    return false;
-  },
 
   //Ajax request to /exercises/data/specials.json.
   loadData :function () {
     var that = this;
     $.ajax({
-      type: 'get',
-      dataType: 'json',
-      url: this.targetURL,
-      success: function (data) {
-        that.updateData(data);
-      }
-    });
+      type: "get",
+      dataType: "json",
+      url: this.sourceURL,
+      async : false,
+    })
   }
 };
 
 $(function() {
   var targetURL = 'data/specials.json',
-    $specialsDivElement = $('#specials');
-    $selectElement = $specialsDivElement.find('select'),
-    jsonContent = new JsonContent(targetURL, $selectElement, $specialsDivElement);
-  jsonContent.load();
+    jsonContent = new JsonContent("data/specials.json", $("#specials"));
+  jsonContent.init();
+  $( document ).ajaxSuccess(function (event, xhr) {
+    jsonContent.updateData(xhr.responseJSON);
+  });
 });
