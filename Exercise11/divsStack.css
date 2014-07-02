@@ -1,0 +1,25 @@
+#container {
+  width: 50%;
+  height: auto;
+  margin: 20px auto;
+  display : block;
+  float :left;
+
+}
+
+.stackElement {
+  width: 60%;
+  margin: 10px auto;
+  height: 50px;
+  border: 1px solid black;
+  text-align: center;
+}
+
+.add {
+  display : inline-block;
+}
+
+.highlight {
+  background-color: #AFB8CC;
+  border: 2px solid green;
+}
