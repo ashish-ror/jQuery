@@ -5,15 +5,31 @@ var Stack = function ($addButton, $containerElement) {
   this.containerElement = $containerElement;
 };
 
+var Div = function (divCount) {
+  "use strict";
+  this.divCount = divCount;
+};
+
+Div.prototype = {
+  createDiv : function () {
+    "use strict";
+    this.divElement = $("<div>").addClass('stackElement').text(this.divCount);
+  }
+};
+
 Stack.prototype = {
   //method to bind create and add event on add button click
   bindEvents : function () {
     "use strict";
-    var that = this;
+    var that = this,
+      newDiv;
     this.addButton.click(function () {
-      that.createAndAddDiv();
+      that.divCount = that.containerElement.children().length + 1;
+      newDiv = new Div(that.divCount);
+      newDiv.createDiv();
+      that.addDivToStack(newDiv.divElement);
     });
-    this.containerElement.on('click', 'div', function () {
+    this.containerElement.on('click', '.stackElement', function () {
       var $divElement = $(this);
       that.highlightDiv($divElement);
       that.removeDiv($divElement);
@@ -21,11 +37,9 @@ Stack.prototype = {
   },
 
   //method to create a new div and then append it to the main container
-  createAndAddDiv : function () {
+  addDivToStack : function (newDivElement) {
     "use strict";
-    this.divCount = this.containerElement.children().length + 1;
-    var $divElement = $("<div>").addClass('stackElement').text(this.divCount);
-    $divElement.prependTo(this.containerElement);
+    newDivElement.prependTo(this.containerElement);
   },
 
   //method to higlight div
