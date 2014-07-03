@@ -19,7 +19,7 @@ JsonContentLoader.prototype = {
         that.loadJsonData();
       } else {
         that.displayData();
-      } 
+      }
     });
   },
 
