@@ -1,11 +1,11 @@
 /*Load Content using JSON*/
-var ContentManager = function (sourceURL, $specialsDiv) {
+var JsonContentLoader = function (sourceURL, $specialsDiv) {
   this.specialsDiv = $specialsDiv;
   this.selectElement = $specialsDiv.find('select');
   this.sourceURL = sourceURL;
 };
 
-ContentManager.prototype = {
+JsonContentLoader.prototype = {
   init : function () {
     this.insertDiv();
     this.bindEvent();
@@ -18,9 +18,8 @@ ContentManager.prototype = {
       that.selectedDay = $(this).val();
       if(!that.jsonData) {
         that.loadJsonData();
-      } else {
-        that.displayData();
-      }
+      } 
+      that.displayData();
     });
   },
 
@@ -35,6 +34,7 @@ ContentManager.prototype = {
     }
   },
 
+  //replace first character of string to get an appropriate format for image source
   replaceFirstCharacterOfString : function (str) {
     return str.substring(0, 0) + "" + str.substring(1);
   },
@@ -59,12 +59,14 @@ ContentManager.prototype = {
     }).done(function(data, textStatus, jqXHR){
       that.jsonData = jqXHR.responseJSON;
       that.displayData();
+    }).fail(function(data) {
+      alert("Could not read JSON");
     });
   }
 };
 
 $(function() {
-  var contentManager = new ContentManager("data/specials.json", $("#specials"));
-  contentManager.removeSubmitButton();
-  contentManager.init();
+  var jsonContentLoader = new JsonContentLoader("data/specials.json", $("#specials"));
+  jsonContentLoader.removeSubmitButton();
+  jsonContentLoader.init();
 });
