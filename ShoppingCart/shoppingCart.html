@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!-- jQuery Drag Countries Exercise by Tanmay Sinha(tanmay@vinsol.com) -->
+
+<html lang='en'>
+  <head>
+    <title>
+      jQuery Drag Countries
+    </title>
+    <script src="libs/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="shoppingCart.js"></script>
+    <link rel="stylesheet" type="text/css" href="shoppingCart.css">
+  </head>
+  <body>
+    <div id="mainContainer">
+      <ul id="tabs">
+        <li id="product" class="highlight">Products</li>
+        <li id="mycart">My Cart (0)</li>
+      </ul>
+    </div>
+    
+    <div id="myShoppingCart">
+      <table>
+        <tr>
+          <th width="500px">Products</th>
+          <th width="150px">Price</th>
+          <th width="50px">Quantity</th>
+          <th width="150px">Subtotal</th>
+          <th width="150px">Action</th>
+        </tr>
+      </table>
+    </div>  
+
+    <div id="total">
+      <h3>Total:<input id="totalPrice" type="text" readonly></h3>
+      <input type="button" value="Checkout">
+    </div>
+
+    <div class="list">
+      <ul id="countryList2"></ul>
+    </div>
+  </body>
+</html>

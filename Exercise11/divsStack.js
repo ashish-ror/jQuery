@@ -21,18 +21,18 @@ Stack.prototype = {
   //method to bind create and add event on add button click
   bindEvents : function () {
     "use strict";
-    var that = this,
+    var _this = this,
       newDiv;
     this.addButton.click(function () {
-      that.divCount = that.containerElement.children().length + 1;
-      newDiv = new Div(that.divCount);
+      _this.divCount = _this.containerElement.children().length + 1;
+      newDiv = new Div(_this.divCount);
       newDiv.createDiv();
-      that.addDivToStack(newDiv.divElement);
+      _this.addDivToStack(newDiv.divElement);
     });
     this.containerElement.on('click', '.stackElement', function () {
       var $divElement = $(this);
-      that.highlightDiv($divElement);
-      that.removeDiv($divElement);
+      _this.highlightDiv($divElement);
+      _this.removeDiv($divElement);
     });
   },
 

@@ -12,13 +12,13 @@ DaysSpecial.prototype = {
 
   // Bind to the change event of the select element;
   bindEvent : function () {
-    var that = this;
+    var _this = this;
     this.selectElement.change(function () {
-      that.selectedDay = $(this).val();
-      if(!that.jsonData) {
-        that.loadJsonData();
+      _this.selectedDay = $(this).val();
+      if(!_this.jsonData) {
+        _this.loadJsonData();
       } else {
-        that.displayData();
+        _this.displayData();
       }
     });
   },
@@ -39,7 +39,7 @@ DaysSpecial.prototype = {
     return str.substring(0, 0) + "" + str.substring(1);
   },
 
-  // Append a target div after the form that's inside the #specials element;
+  // Append a target div after the form _this's inside the #specials element;
   insertDiv : function () {
     this.targetDiv = $("<div>").insertAfter(this.specialsDiv.find("form"));
   },
@@ -51,14 +51,14 @@ DaysSpecial.prototype = {
   
   //Ajax request to /exercises/data/specials.json.
   loadJsonData :function () {
-    var that = this;
+    var _this = this;
     $.ajax({
       type: "get",
       dataType: "json",
       url: this.sourceURL,
     }).done(function(data, textStatus, jqXHR){
-      that.jsonData = jqXHR.responseJSON;
-      that.displayData();
+      _this.jsonData = jqXHR.responseJSON;
+      _this.displayData();
     }).fail(function(data) {
       alert("Could not read JSON");
     });
