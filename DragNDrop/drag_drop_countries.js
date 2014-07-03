@@ -15,19 +15,21 @@ DragNDropManager.prototype = {
     });
   },
 
-  dragNDrop : function (list1, list2) {
-    list1.find("li").draggable({
-      cursor : "move",
+  dragNDrop : function ($list1, $list2) {
+    $list1.find("li").draggable({
+      revert: "invalid", 
+      helper: "clone",
+      cursor: "move"
     }).disableSelection();
 
-    list2.droppable({
-      drop : function(event, ui) {
-        console.log($(this));
-        ui.draggable.removeAttr("style").appendTo(list2);
+    $list2.droppable({
+      accept: "li",
+      activeClass: "ui-state-highlight",
+      drop: function( event, ui ) {
+        ui.draggable.removeAttr("style").appendTo($list2);
       }
     });
   }
-
 };
 
 $(function($) {
