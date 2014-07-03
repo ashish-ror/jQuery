@@ -1,11 +1,11 @@
 /*Load Content using JSON*/
-var JsonContentLoader = function (sourceURL, $specialsDiv) {
+var DayContentLoader = function (sourceURL, $specialsDiv) {
   this.specialsDiv = $specialsDiv;
   this.selectElement = $specialsDiv.find('select');
   this.sourceURL = sourceURL;
 };
 
-JsonContentLoader.prototype = {
+DayContentLoader.prototype = {
   init : function () {
     this.bindEvent();
   },
@@ -66,8 +66,8 @@ JsonContentLoader.prototype = {
 };
 
 $(function() {
-  var jsonContentLoader = new JsonContentLoader("data/specials.json", $("#specials"));
-  jsonContentLoader.insertDiv();
-  jsonContentLoader.removeSubmitButton();
-  jsonContentLoader.init();
+  var dayContentLoader = new DayContentLoader("data/specials.json", $("#specials"));
+  dayContentLoader.insertDiv();
+  dayContentLoader.removeSubmitButton();
+  dayContentLoader.init();
 });
