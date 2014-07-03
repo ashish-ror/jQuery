@@ -67,6 +67,7 @@ JsonContentLoader.prototype = {
 
 $(function() {
   var jsonContentLoader = new JsonContentLoader("data/specials.json", $("#specials"));
+  jsonContentLoader.insertDiv();
   jsonContentLoader.removeSubmitButton();
   jsonContentLoader.init();
 });
