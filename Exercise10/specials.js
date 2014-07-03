@@ -7,7 +7,6 @@ var JsonContentLoader = function (sourceURL, $specialsDiv) {
 
 JsonContentLoader.prototype = {
   init : function () {
-    this.insertDiv();
     this.bindEvent();
   },
 
@@ -18,8 +17,9 @@ JsonContentLoader.prototype = {
       that.selectedDay = $(this).val();
       if(!that.jsonData) {
         that.loadJsonData();
+      } else {
+        that.displayData();
       } 
-      that.displayData();
     });
   },
 
