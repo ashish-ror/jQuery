@@ -109,6 +109,20 @@ ShoppingCart.prototype = {
       _this.myCartElement.show()
       $(".products").hide();
     });
+  },
+
+  bindQuantityChangeEvent : function() {
+    var _this = this;
+    $("table").on("change", ".productQuantity", function() {
+      _this.checkTotalQuantity();
+      _this.calculateSubTotal($(this));
+    });
+  },
+
+  calculateSubTotal : function (obj) {
+    var subtotal = parseFloat(obj.parent().prev().data("price")) * obj.val();
+    obj.parent().next().data("subtotal", subtotal).text(subtotal.toFixed(2));
+    this.calculateTotalPrice();
   }
 };
 
