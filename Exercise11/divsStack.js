@@ -21,7 +21,7 @@ Stack.prototype = {
     });
     this.containerElement.on('click', '.stackElement', function () {
       var $element = $(this);
-      if ($element.is(":first-child")) {  
+      if ($element.is(":first-child")) {
         _this.removeElement($element);
       } else {
         _this.highlightElement($element);
