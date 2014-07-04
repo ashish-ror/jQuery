@@ -54,7 +54,7 @@ Stack.prototype = {
   //method to remove topmost div if clicked
   removeElement : function ($element) {
     "use strict";
-    if (this.lastElementValue === $element.text()) {
+    if (this.lastElementValue == $element.text()) {
       $element.remove();
       this.lastElementValue = this.containerElement.children().first().text();
       return true;
