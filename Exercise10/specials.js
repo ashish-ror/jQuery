@@ -15,10 +15,10 @@ DaysSpecial.prototype = {
     var _this = this;
     this.selectElement.change(function () {
       _this.selectedDay = $(this).val();
-      if(!_this.jsonData) {
-        _this.loadJsonData();
-      } else {
+      if(_this.jsonData) {
         _this.displayData();
+      } else {
+        _this.loadJsonData();
       }
     });
   },
@@ -27,7 +27,6 @@ DaysSpecial.prototype = {
   displayData : function () {
     if(this.selectedDay) {
       var $image = $("<img>", { src : this.replaceFirstCharacterOfString(this.jsonData[this.selectedDay].image)});
-      // var $image = $("<img>", { src : this.jsonData[this.selectedDay].image});
       this.targetDiv.html("Title: " + this.jsonData[this.selectedDay].title + " <br>Text: " + this.jsonData[this.selectedDay].text)
                     .attr('style', 'color:' + this.jsonData[this.selectedDay].color)
                     .append($image);
@@ -58,8 +57,8 @@ DaysSpecial.prototype = {
       type: "get",
       dataType: "json",
       url: this.sourceURL,
-    }).done(function(data, textStatus, jqXHR){
-      _this.jsonData = jqXHR.responseJSON;
+    }).done(function(data){
+      _this.jsonData = data;
       _this.displayData();
     }).fail(function(data) {
       alert("Could not read JSON");
