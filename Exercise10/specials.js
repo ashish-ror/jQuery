@@ -55,7 +55,7 @@ DaysSpecial.prototype = {
     }).done(function(data){
       _this.jsonData = data;
       _this.displayData();
-    }).fail(function(data) {
+    }).fail(function() {
       alert("Could not read JSON");
     });
   }
