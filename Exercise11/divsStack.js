@@ -3,17 +3,20 @@ var Stack = function ($addButton, $containerElement) {
   "use strict";
   this.addButton = $addButton;
   this.containerElement = $containerElement;
+  this.elementCount = 0;
+  this.lastElementCount = 0;
 };
 
-var Div = function (divCount) {
+var Element = function (elementCount) {
   "use strict";
-  this.divCount = divCount;
+  this.elementCount = elementCount;
 };
 
-Div.prototype = {
-  createDiv : function () {
+Element.prototype = {
+  create : function () {
     "use strict";
-    this.divElement = $("<div>").addClass('stackElement').text(this.divCount);
+    this.element = $("<div>").addClass('stackElement').data("highlight", false).text(this.elementCount);
+    return this.element;
   }
 };
 
@@ -21,45 +24,46 @@ Stack.prototype = {
   //method to bind create and add event on add button click
   bindEvents : function () {
     "use strict";
-    var _this = this,
-      newDiv;
+    var _this = this;
     this.addButton.click(function () {
-      _this.divCount = _this.containerElement.children().length + 1;
-      newDiv = new Div(_this.divCount);
-      newDiv.createDiv();
-      _this.addDivToStack(newDiv.divElement);
+      _this.elementCount++;
+      _this.lastElementValue = _this.elementCount;
+      _this.addElementToStack(new Element(_this.elementCount).create());
     });
     this.containerElement.on('click', '.stackElement', function () {
-      var $divElement = $(this);
-      _this.highlightDiv($divElement);
-      _this.removeDiv($divElement);
+      var $element = $(this),
+        isElementRemoved = _this.removeElement($element);
+      if (!isElementRemoved && !$element.data("highlight")) {
+        _this.highlightElement($element);
+      }
     });
   },
 
   //method to create a new div and then append it to the main container
-  addDivToStack : function (newDivElement) {
+  addElementToStack : function ($newElement) {
     "use strict";
-    newDivElement.prependTo(this.containerElement);
+    $newElement.prependTo(this.containerElement);
   },
 
   //method to higlight div
-  highlightDiv : function ($divElement) {
+  highlightElement : function ($element) {
     "use strict";
-    $divElement.toggleClass('highlight');
+    $element.addClass('highlight').data("highlight", true);
   },
 
   //method to remove topmost div if clicked
-  removeDiv : function ($divElement) {
+  removeElement : function ($element) {
     "use strict";
-    if (this.divCount == $divElement.text()) {
-      $divElement.remove();
-      this.divCount -= 1;
+    if (this.lastElementValue === $element.text()) {
+      $element.remove();
+      this.lastElementValue = this.containerElement.children().first().text();
+      return true;
     }
+    return false;
   }
 };
 
 $(function () {
   "use strict";
-  var stack = new Stack($("#add"), $("#container"));
-  stack.bindEvents();
+  new Stack($("#add"), $("#container")).bindEvents();
 });
