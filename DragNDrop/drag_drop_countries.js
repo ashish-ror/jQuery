@@ -1,23 +1,26 @@
-var DragNDropManager = function ($countryList1, $countryList2) {
+var DragAndDropManager = function($countryList1, $countryList2) {
+  "use strict";
   this.countryList1 = $countryList1;
   this.countryList2 = $countryList2;
 };
 
-DragNDropManager.prototype = {
-  bindEvents : function () {
+DragAndDropManager.prototype = {
+  bindEvents : function() {
+    "use strict";
     var that = this;
     this.countryList1.on("mouseenter", "li", function() {
-      that.dragNDrop(that.countryList1, that.countryList2);
+      that.dragAndDrop(that.countryList1, that.countryList2);
     });
 
     this.countryList2.on("mouseenter", "li", function() {
-      that.dragNDrop(that.countryList2, that.countryList1);
+      that.dragAndDrop(that.countryList2, that.countryList1);
     });
   },
 
-  dragNDrop : function ($list1, $list2) {
+  dragAndDrop : function($list1, $list2) {
+    "use strict";
     $list1.find("li").draggable({
-      revert: "invalid", 
+      revert: "invalid",
       helper: "clone",
       cursor: "move"
     }).disableSelection();
@@ -25,7 +28,7 @@ DragNDropManager.prototype = {
     $list2.droppable({
       accept: "li",
       activeClass: "ui-state-highlight",
-      drop: function( event, ui ) {
+      drop: function(event, ui) {
         ui.draggable.removeAttr("style").appendTo($list2);
       }
     });
@@ -33,6 +36,6 @@ DragNDropManager.prototype = {
 };
 
 $(function($) {
-  var country = new DragNDropManager($("#countryList1"), $("#countryList2"));
-  country.bindEvents();
+  "use strict";
+  new DragAndDropManager($("#countryList1"), $("#countryList2")).bindEvents();
 });
