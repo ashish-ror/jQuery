@@ -26,13 +26,19 @@ DaysSpecial.prototype = {
   //Add some HTML about the special to the target div you created.
   displayData : function () {
     if(this.selectedDay) {
-      var $image = $("<img>", { src : this.jsonData[this.selectedDay].image});
+      var $image = $("<img>", { src : this.replaceFirstCharacterOfString(this.jsonData[this.selectedDay].image)});
+      // var $image = $("<img>", { src : this.jsonData[this.selectedDay].image});
       this.targetDiv.html("Title: " + this.jsonData[this.selectedDay].title + " <br>Text: " + this.jsonData[this.selectedDay].text)
                     .attr('style', 'color:' + this.jsonData[this.selectedDay].color)
                     .append($image);
     } else {
       this.targetDiv.text("");
     }
+  },
+
+  //replace first character of string to get an appropriate format for image source
+  replaceFirstCharacterOfString : function (str) {
+    return str.substring(0, 0) + "" + str.substring(1);
   },
 
   // Append a target div after the form _this's inside the #specials element;
