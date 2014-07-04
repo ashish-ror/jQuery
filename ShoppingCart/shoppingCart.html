@@ -11,32 +11,33 @@
     <link rel="stylesheet" type="text/css" href="shoppingCart.css">
   </head>
   <body>
-    <div id="productsBlock">
-      <ul id="tabs">
-        <li id="product" class="highlight">Products</li>
-        <li id="myCartTab">My Cart (0)</li>
-      </ul>
-    </div>
-    
-    <div id="myCart">
-      <table>
-        <tr>
-          <th width="500px">Products</th>
-          <th width="150px">Price</th>
-          <th width="50px">Quantity</th>
-          <th width="150px">Subtotal</th>
-          <th width="150px">Action</th>
-        </tr>
-      </table>
-    </div>  
+    <div id="container">
+      <div id="tabs">
+        <ul>
+          <li id="product" class="highlight">Products</li>
+          <li id="myCartTab">My Cart (0)</li>
+        </ul>
+      </div>
+      
+      <div id="productsBlock">
+      </div>
 
-    <div id="total">
-      <h3>Total:<input id="totalPrice" type="text" readonly></h3>
-      <input type="button" value="Checkout">
-    </div>
+      <div id="myCart">
+        <table>
+          <tr>
+            <th width="500px">Products</th>
+            <th width="150px">Price</th>
+            <th width="50px">Quantity</th>
+            <th width="150px">Subtotal</th>
+            <th width="150px">Action</th>
+          </tr>
+        </table>
+      </div>  
 
-    <div class="list">
-      <ul id="countryList2"></ul>
+      <div id="total">
+        <h3>Total:<input id="totalPrice" type="text" readonly></h3>
+        <input type="button" value="Checkout">
+      </div>
     </div>
   </body>
 </html>

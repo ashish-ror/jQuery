@@ -1,9 +1,15 @@
-div.products {
-  width: 1000px;
-  height: 130px;
-  outline: 1px solid black;
-  padding: 10px;
-  /*display: none;*/
+#container {
+  background-color: #F4F4F4;
+  width: 800px;
+  height: 0px auto;
+  margin-left: 200px;
+}
+
+.products {
+  width: 786px;
+  height: 110px;
+  border: 2px solid black;
+  padding: 5px
 }
 
 #mycart {
@@ -22,20 +28,12 @@ div.products {
   display: inline-block;
   border: 1px solid black;
   padding: 10px;
-  margin-right: 10px;
-  font: bold 18px sans-serif;
+  margin-top: 5px;
+  margin-right: 5px;
+  font: bold 16px sans-serif;
 }
 
-img.productImage1 {
-  width: 110px;
-  height: 110px;
-  float: left;
-  line-height: 130px;
-  vertical-align: middle;
-  border: 1px solid black;
-}
-
-img.productImage2 {
+.productImage {
   width: 80px;
   height: 80px;
   float: left;
@@ -57,16 +55,16 @@ p {
 
 input[type = "text"] {
   width: 20px;
-  display: inline-block;  
+  display: inline-block;
 }
 
 span.details {
-  width: 500px;
+  width: 300px;
   float: left;
   margin-left: 20px;
 }
 
-#quantity {
+.quantity {
   margin-left: 80px;
   line-height: 100px;
   vertical-align: middle;
@@ -80,10 +78,9 @@ input[type = "button"] {
   color: gray; 
 }
 
-/* total div */
 #total {
   text-align: right;
-  width: 1000px;
+  width: 700px;
   height: 60px;
   padding: 10px;
 }
@@ -96,25 +93,18 @@ input[type = "button"] {
   width: 150px;
   height: 30px;
   text-align: center;
-  font-size: 18px;
-  padding: 0px 5px;
   background-color: gray;
   color: white;
-  border: 1px solid black;
-  border-radius: 5px;
 }
 
-#total-price {
+#totalPrice {
   margin-left: 10px;
   width: 150px;
   height: 20px;
 }
 
-/*css for My Cart tab*/
-
 table, tr, th, td {
   border: 1px solid black;
-  border-collapse: collapse;
   text-align: center;
 }
 
@@ -129,5 +119,5 @@ th {
 }
 
 table button {
-  margin-top : 30px;
+  margin-top : 35px;
 }

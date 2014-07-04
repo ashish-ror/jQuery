@@ -1,100 +1,116 @@
 /*Shopping Cart*/
-var ShoppingCart = function ($tableElement, $productsBlockElement, $totalPriceElement, $myCartElement) {
+var ShoppingCart = function ($tableElement, $productsBlockElement, $totalPriceElement, $tabElement, $myCart) {
+  "use strict";
   this.tableElement = $tableElement;
   this.productBlockElement = $productsBlockElement;
   this.totalPriceElement = $totalPriceElement;
-  this.myCartElement = $myCartElement;
+  this.tabElement = $tabElement;
+  this.myCartBlock = $myCart;
   this.jsonData = "";
 };
 
 ShoppingCart.prototype = {
   init : function () {
-    if(!this.jsonData) {
+    "use strict";
+    this.myCartBlock.hide();
+    if (!this.jsonData) {
       this.getJson();
     }
   },
 
   getJson : function () {
+    "use strict";
     var _this = this;
-    $.getJSON("products.json").done(function(data) {
+    $.getJSON("products.json").done(function (data) {
       _this.jsonData = data;
       _this.populateProductsTab();
       _this.bindTabEvent();
-      _this.bindEvent();
+      _this.bindAddProductEvent();
     }).fail(function() {
       alert("Not able to load JSON");
     });
   },
 
   populateProductsTab : function () {
-    for(var itemType in this.jsonData) {
-      // creating a display element
+    "use strict";
+    var _this = this;
+      // creating a product block display
+    $.each(this.jsonData, function(itemType) {
       var $div = $("<div/>", { class : "products"}),
         $span = $("<span>", { class: "details"});
-   
-      $("<img>", { class : "productImage", src : this.jsonData[itemType]["image"]}).appendTo($div);
-      $("<h2/>", { class : "productName"}).text(this.jsonData[itemType]["name"]).appendTo($span);
-      $("<p/>").text("Category : " + itemType).appendTo($span);
-      $("<p/>").text(this.jsonData[itemType]["text"]).appendTo($span);
 
-      $("<h2/>", { class : "price"}).text(this.jsonData[itemType]["price"])
-                                  .data("price", this.jsonData[itemType]["price"])
+      $("<img>", { class : "productImage", src : _this.jsonData[itemType]["image"]}).appendTo($div);
+      $("<h2/>", { class : "productName"}).text(_this.jsonData[itemType]["name"]).appendTo($span);
+      $("<p/>").text("Category : " + itemType).appendTo($span);
+      $("<p/>").text(_this.jsonData[itemType]["text"]).appendTo($span);
+      $("<h2/>", { class : "price"}).text(_this.jsonData[itemType]["price"])
+                                  .data("price", _this.jsonData[itemType]["price"])
                                   .appendTo($span);
-      
-      $("<span>", { class : "quantity"}).text("Quantity : ").appendTo($div);
-      $("<input>" , { type : "text", val : "1", class : "quantity" }).appendTo($div);
-      $("<input>", { type : 'button', value : "Add to Cart", class : "addToCart" }).data("data", this.jsonData[itemType])
-                                                                                   .appendTo($div);
       $span.appendTo($div);
-      $div.appendTo(this.productBlockElement);
-    }
+      $("<span>", { class : "quantity"}).text("Quantity : ").appendTo($div);
+      $("<input>", { type : "text", val : "1"}).appendTo($div);
+      $("<input>", { type : 'button', value : "Add to Cart", class : "addToCart" }).data("data", _this.jsonData[itemType])
+                                                                                   .appendTo($div);
+      $div.appendTo(_this.productBlockElement);
+    });
   },
 
-  bindEvent : function () {
+  bindAddProductEvent : function () {
+    "use strict";
     var _this = this;
     $(".addToCart").click(function () {
-      var quantity =$(this).siblings("input").val();
-      _this.addProductToMyCart($(this).data("data"), quantity);
+      var $addElement = $(this),
+        quantity = $addElement.siblings("input").val();
+      _this.addProductToMyCart($addElement.data("data"), quantity);
       _this.updateQuantityBought();
     });
     this.bindRemoveEvent();
+    this.bindQuantityChangeEvent();
   },
 
   addProductToMyCart : function (data, quantity) {
-    var $productRow = $ ("<td>"),
+    "use strict";
+    var $productRow = $("<tr>"),
       $productDetails = $("<td>"),
-      $productImage = $("<img>", { src : data.image }),
-      productName = data.name;
-    
-    $productDetails.append($("<h4>", { text : productName })).appendTo($productRow);
-    var price = data.price;
-    $("<td>", { text : price }).data("price", price).appendTo($productRow);
-    $("<td>").html($("<input>", { class : "productQuantity", type : "text", value : quantity })).appendTo($productRow);
-    
-    var subTotal = parseFloat((price * quantity).toFixed(2));
-    $("<td>", { class : "subtotal", text : subTotal }).data("subtotal", subTotal).appendTo($productRow);
-    $("<button>", { class : "remove", text : "remove" }).data("row", $productRow).appendTo($productRow);
+      $productRemoveButton = $("<td>");
+    $("<img>", { src : data.image }).appendTo($productDetails);
+    $productDetails.append($("<h4>", { text : data.name })).appendTo($productRow);
+    $("<td>", { text : data.price }).data("price", data.price).appendTo($productRow);
+
+    var $quantityElement = $("<td>").data("price", data.price).html($("<input>", { class : "productQuantity", type : "text", value : quantity })),
+      subTotal = parseFloat((data.price * quantity)),
+      $subTotalElement = $("<td>", { class : "subTotal", text : subTotal }).data("subTotal", subTotal);
+
+    $quantityElement.data("subTotalReference", $subTotalElement);
+    $quantityElement.appendTo($productRow);
+    $subTotalElement.appendTo($productRow);
+
+    $("<button>", { class : "remove", text : "remove" }).data("row", $productRow).appendTo($productRemoveButton);
+    $productRemoveButton.appendTo($productRow);
     $productRow.appendTo(this.tableElement);
     this.updateTotalPrice();
   },
 
   updateTotalPrice : function () {
+    "use strict";
     var totalPrice = 0;
-    $(".subtotal").each(function () {
-      totalPrice += $(this).data("subtotal");
+    $(".subTotal").each(function () {
+      totalPrice += $(this).data("subTotal");
     });
-    this.totalPriceElement.val(totalPrice.toFixed(2));
+    this.totalPriceElement.val(totalPrice);
   },
 
   updateQuantityBought : function () {
+    "use strict";
     var totalQuantity = 0;
     $(".productQuantity").each(function() {
       totalQuantity += parseInt($(this).val());
     });
-    $("#myCartTab").text("My Cart (" + totalQuantity + ")" );
+    $("#myCartTab").text("My Cart (" + totalQuantity + ")");
   },
 
   bindRemoveEvent : function () {
+    "use strict";
     var _this = this;
     this.tableElement.on("click", ".remove", function() {
       $(this).data("row").remove();
@@ -104,29 +120,42 @@ ShoppingCart.prototype = {
   },
 
   bindTabEvent : function () {
+    "use strict";
     var _this = this;
-    $("#myCartTab").on("click",function() {
-      _this.myCartElement.show()
-      $(".products").hide();
+    this.tabElement.on("click", "#myCartTab", function() {
+      _this.display(_this.myCartBlock, _this.productBlockElement);
+    });
+    this.tabElement.on("click", "#product", function() {
+      _this.display(_this.productBlockElement, _this.myCartBlock);
     });
   },
 
-  bindQuantityChangeEvent : function() {
+  display : function (tabBlock1, tabBlock2) {
+    "use strict";
+    tabBlock1.show();
+    tabBlock2.hide();
+  },
+
+  bindQuantityChangeEvent : function () {
+    "use strict";
     var _this = this;
     $("table").on("change", ".productQuantity", function() {
-      _this.checkTotalQuantity();
-      _this.calculateSubTotal($(this));
+      _this.updateQuantityBought();
+      _this.updateSubTotal($(this));
     });
   },
 
-  calculateSubTotal : function (obj) {
-    var subtotal = parseFloat(obj.parent().prev().data("price")) * obj.val();
-    obj.parent().next().data("subtotal", subtotal).text(subtotal.toFixed(2));
-    this.calculateTotalPrice();
+  updateSubTotal : function ($quantityElement) {
+    "use strict";
+    var $subTotalElement = $quantityElement.parent("td"),
+      price = $subTotalElement.data("price"),
+      subTotal = parseFloat(price * $quantityElement.val());
+    $subTotalElement.data("subTotalReference").data("subTotal", subTotal).text(subTotal);
+    this.updateTotalPrice();
   }
 };
 
 $(function () {
-  var shoppingCart = new ShoppingCart($("table"), $("#productsBlock"), $("totalPrice"), $("#myCart"));
-  shoppingCart.init();
+  "use strict";
+  new ShoppingCart($("table"), $("#productsBlock"), $("#totalPrice"), $("#tabs"), $("#myCart")).init();
 });
