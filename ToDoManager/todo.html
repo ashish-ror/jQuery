@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!-- JS Evaluation Exercise by Tanmay Sinha(tanmay@vinsol.com) -->
+
+<html lang='en'>
+  <head>
+    <title>
+      JS Evaluation Exercise
+    </title>    
+    <link rel="stylesheet" type="text/css" href="todo.css">
+    <script src="libs/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="todo1.js"></script>
+  </head>
+  <body>
+    <div id="container">
+      <div id="left_block">
+        <div id="todo_block">
+          <span>To Do:</span>
+          <input type="text" id="toDo">
+          <select id="select" class="select">
+          </select>
+          <button type="button" id="saveButton">Save</button>
+        </div>
+      </div>
+
+      <div id="right_block">
+        <div id="top_right_block">
+          <span id="button" class="button">
+            <button type="button" id="createToDo">Create To Do</button>
+            <button type="button" id="createUser">Create User</button>
+          </span>
+        </div>
+        <div id="name_block">
+          <span>Name:</span>
+          <input type="text" id="name">
+          <button type="button" id="add">Add</button>
+        </div>
+      </div>
+
+      <hr>
+      <div id="todo_list_block">
+        <h3> To Do List </h3>
+        <div id="todoList" class="checkToDo"></div>
+      </div>
+
+      <div id="lower_right_block">
+        <h3> User List </h3>
+        <div id="userList"></div>
+      </div>
+
+    </div>
+  </body>
+</html>

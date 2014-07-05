@@ -1,0 +1,82 @@
+.*{
+  margin: 0;
+  padding: 0;
+}
+
+#container {
+  display : inline-block;
+  width: 1200px;
+  height: auto;
+  margin: 0px auto;
+  background-color: #DFECE1;
+  margin-top: 10px;
+  margin-left: 10px;
+  border-radius: 10px;
+  padding :10px;
+  text-align: center;
+}
+
+#left_block {
+  display : inline-block;
+	width: 700px;
+  height: auto;
+  margin: 0px auto;
+  padding: 10px;
+}
+
+#right_block {
+  display : inline-block;
+  width: 400px;  
+}
+
+.button {
+  display : inline-block;
+  margin-left: 50px;
+  margin-bottom: 20px;
+}
+
+#todo_list_block {
+  display : inline-block;
+  width: 700px;
+  height: auto;
+  margin: 0px auto;
+  padding: 10px;
+}
+
+#lower_right_block {
+  display : inline-block;
+  width: 400px; 
+}
+
+#todoList{ 
+  margin-left:225px;
+  text-align: left
+}
+
+#userList{ 
+  margin-left:153px;
+  text-align: left
+}
+
+p {
+  line-height: 0.75em;
+}
+
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
+.notHidden {
+  display: block;
+  visibility: visible;
+}
+
+button.notHidden {
+  display: inline-block;
+  visibility: visible;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+}
