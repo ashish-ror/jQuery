@@ -5,9 +5,9 @@ var Stack = function ($addButton, $containerElement) {
   this.elementCount = 0;
 };
 
-var Element = function (elementCount) {
-  this.elementCount = elementCount;
-  this.element = $('<div>').addClass('stackElement').text(this.elementCount);
+var Element = function (count) {
+  this.count = count;
+  this.html = $('<div>').addClass('stackElement').text(this.count);
 };
 
 Stack.prototype = {
@@ -16,7 +16,7 @@ Stack.prototype = {
     var _this = this;
     this.addButton.click(function () {
       _this.elementCount++;
-      _this.addElement(new Element(_this.elementCount).element);
+      _this.addElement(new Element(_this.elementCount).html);
     });
 
     this.containerElement.on('click', '.stackElement', function () {
