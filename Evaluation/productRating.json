@@ -1,0 +1,5 @@
+{
+  "drinks" : [ "Coffee", "Tea", "Sodas" ],
+
+  "ratings" : [ "Love it", "Like It", "No Views", "Dislike It", "Abhor It" ]
+}

@@ -1,0 +1,21 @@
+table{
+  width: 600px;
+  margin: 0px auto;
+  text-align: center;
+  color: #5E6364;
+}
+
+td {
+  border-right: 2px solid #C4CFE6;
+  margin-right: 10px;
+}
+
+.highlight {
+  background-color: #DCE4EC;
+  border: 2px solid #C4CFE6;
+  color: #224376;
+}
+
+input.radio {
+  margin-left: 10px;
+}
