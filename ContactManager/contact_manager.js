@@ -54,7 +54,7 @@ ContactManager.prototype.createNewContact = function () {
   if (contact.validate()) {
     newContact = contact.create();
     this.contacts.push(newContact);
-    this.appendElementToDisplay(newContact.element)
+    this.appendElementToDisplay(newContact.element);
   }
 };
 
