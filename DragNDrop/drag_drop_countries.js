@@ -7,13 +7,13 @@ var DragAndDropManager = function($countryList1, $countryList2) {
 DragAndDropManager.prototype = {
   bindEvents : function() {
     "use strict";
-    var that = this;
+    var _this = this;
     this.countryList1.on("mouseenter", "li", function() {
-      that.dragAndDrop(that.countryList1, that.countryList2);
+      _this.dragAndDrop(_this.countryList1, _this.countryList2);
     });
 
     this.countryList2.on("mouseenter", "li", function() {
-      that.dragAndDrop(that.countryList2, that.countryList1);
+      _this.dragAndDrop(_this.countryList2, _this.countryList1);
     });
   },
 
