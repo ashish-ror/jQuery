@@ -1,8 +1,22 @@
-var Contact = function (name, email, $displayBlock) {
+/*Contact Manager*/
+var Contact = function (name, email) {
   this.name = name;
   this.email = email;
-  this.displayBlock = $displayBlock;
   this.emailRegex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+};
+
+Contact.prototype.create = function () {
+  this.element = $('<div>', {class : 'contact'}).html("Name: " + this.name + "<br>Email:  " + this.email + "<br>");
+  this.removeButton = $("<input>", { type : 'button', value : "Remove", class : "remove" }).data("contactObject", this.element)
+                                                                                           .appendTo(this.element);
+  return this;
+};
+
+Contact.prototype.validate = function () {
+  if(this.name.trim() && this.email.match(this.emailRegex)) {
+    return true;
+  }
+  return false;
 };
 
 var ContactManager = function ($contactBlock, $searchBlock, $displayBlock) {
@@ -14,55 +28,53 @@ var ContactManager = function ($contactBlock, $searchBlock, $displayBlock) {
   this.contacts = [];
 };
 
-Contact.prototype = {
-  create : function () {
-    this.element = $('<div>', {class : 'contact'}).html("Name: " + this.name + "<br>Email:  " + this.email + "<br>");
-    this.removeButton = $("<input>", { type : 'button', value : "Remove", class : "remove" }).data("contact", this.element).appendTo(this.element);
-    this.element.appendTo(this.displayBlock);
-    return this;
-  },
-
-  validate : function () {
-    if(this.name.trim() && this.email.match(this.emailRegex)) {
-      return true;
+ContactManager.prototype.search = function () {
+  var _this = this;
+  $.each(this.contacts, function (i) {
+    if (!_this.matchSearchInput(_this.contacts[i].name, _this.searchElement.val())) {
+      _this.contacts[i].element.hide();
+    } else {
+      _this.contacts[i].element.show();
     }
-    return false;
-  },
+  });
 };
 
-ContactManager.prototype = {
-  search : function () {
-    var _this = this;
-    $.each(this.contacts, function (i) {
-      if (!(_this.contacts[i].name.toLowerCase().match(_this.searchElement.val().toLowerCase()))) {
-        _this.contacts[i].element.hide();
-      } else {
-        _this.contacts[i].element.show();
-      }
-    });
-  },
+ContactManager.prototype.matchSearchInput = function (name, searchInput) {
+  var name = this.convertToLowerCase(name),
+    searchInput = this.convertToLowerCase(searchInput);
+  return(name.match(searchInput));
+};
 
-  createNewContact : function () {
-    var contact = new Contact(this.nameElement.val(), this.emailElement.val(), this.displayBlock);
-    if (contact.validate()) {
-      this.contacts.push(contact.create());
-    }
-  },
+ContactManager.prototype.convertToLowerCase = function (inputText) {
+  return inputText.toLowerCase();
+};
 
-  bindEvents : function () {
-    var _this = this;
-    this.saveButton.click(function () {
-      _this.createNewContact();
-    });
-
-    this.searchElement.on('keyup',function () {
-      _this.search();
-    });
-
-    this.displayBlock.on('click', ".remove", function () {
-      $(this).data("contact").remove();
-    });
+ContactManager.prototype.createNewContact = function () {
+  var contact = new Contact(this.nameElement.val(), this.emailElement.val());
+  if (contact.validate()) {
+    newContact = contact.create();
+    this.contacts.push(newContact);
+    this.appendElementToDisplay(newContact.element)
   }
+};
+
+ContactManager.prototype.appendElementToDisplay = function ($contactElement) {
+  $contactElement.appendTo(this.displayBlock);
+};
+
+ContactManager.prototype.bindEvents = function () {
+  var _this = this;
+  this.saveButton.click(function () {
+    _this.createNewContact();
+  });
+
+  this.searchElement.on('keyup',function () {
+    _this.search();
+  });
+
+  this.displayBlock.on('click', ".remove", function () {
+    $(this).data("contactObject").remove();
+  });
 };
 
 $(function () {
