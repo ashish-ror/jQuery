@@ -1,7 +1,7 @@
 /*SlideShow*/
-var SlideShow = function($slideShowDiv, $listElements) {
+var SlideShow = function($slideShowDiv) {
   this.slideShowDiv = $slideShowDiv;
-  this.listElements = $listElements;
+  this.listElements = this.slideShowDiv.find("li");
   this.totalSlides = this.listElements.length;
   this.count = 0;
 };
@@ -43,13 +43,13 @@ SlideShow.prototype = {
 
   //method to display slide
   showSlide : function (slide) {
-    var that = this;
+    var _this = this;
     this.showSlideNumber();
     slide.fadeIn(1000)
          .delay(1500)
-         .fadeOut(function() { 
-           that.nextSlide(); 
-          });
+         .fadeOut(function() {
+      _this.nextSlide(); 
+    });
   },
 
   //method to display the slide number
@@ -68,9 +68,6 @@ SlideShow.prototype = {
   }
 };
 
-$(document).ready(function () {
-  var $slideShowDiv = $('#slideshow'),
-    $listElements = $('#slideshow li');
-    slideShow = new SlideShow($slideShowDiv, $listElements);
-  slideShow.start();
+$(function () {
+  new SlideShow($('#slideshow')).start();
 });
