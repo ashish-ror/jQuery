@@ -60,30 +60,37 @@ var ToDoManager = function (fetchedElementList) {
   this.toDoListDiv = fetchedElementList.toDoList;
   this.usersList = [];
   this.usersToDo = [];
-  this.createToDo.hide();
-  this.nameBlock.hide();
-  this.toDoBlock.hide();
   this.remainingToDoCount = 0;
 };
 
 ToDoManager.prototype = {
   //method to bind click on create user and create to-do button
+  init : function () {
+    this.createToDo.hide();
+    this.nameBlock.hide();
+    this.toDoBlock.hide();
+    this.bindEvents();
+  },
+
   bindEvents : function () {
     var _this = this;
     this.createUser.on("click", function () {
-      _this.nameBlock.show();
-      _this.toDoBlock.hide();
-      _this.createToDo.hide();
+      _this.display(_this.toDoBlock, _this.nameBlock, _this.createToDo);
     });
 
     this.createToDo.on("click", function () {
-      _this.toDoBlock.show();
-      _this.nameBlock.hide();
-      _this.createUser.hide();
+      _this.display(_this.nameBlock, _this.toDoBlock, _this.createUser);
     });
+
     this.bindSaveEvent();
     this.bindCheckboxEvent();
     this.bindAddUserEvent();
+  },
+
+  display : function ($blockToHide, $blockToShow, $buttonElement) {
+    $blockToHide.hide();
+    $blockToShow.show();
+    $buttonElement.hide();
   },
 
   //method to bind click on add user
@@ -94,6 +101,7 @@ ToDoManager.prototype = {
       if (user.validateName() && _this.checkUserExistence()) {
         _this.usersList.push(user.add());
         _this.addUserToSelectList(user.element);
+        _this.nameElement.val("");
         _this.nameBlock.hide();
         _this.createToDo.show();
       }
@@ -118,7 +126,6 @@ ToDoManager.prototype = {
 
   //method to bind save To-Do click
   bindSaveEvent : function () {
-    "use strict";
     var _this = this;
     this.toDoBlock.on("click", "#saveButton", function () {
       var toDo = new ToDo(_this.toDoElement.val(), _this.selectList.val(), _this.selectList.find(":selected").data("userReference"), _this.toDoListDiv);
@@ -126,6 +133,7 @@ ToDoManager.prototype = {
         _this.toDoBlock.hide();
         _this.createUser.show();
         _this.usersToDo.push(toDo.save());
+        _this.toDoElement.val("");
         _this.incrementToDoCount(_this.selectList.find(":selected").data("userReference"));
       }
     });
@@ -139,7 +147,6 @@ ToDoManager.prototype = {
 
   //method to bind checkbox click
   bindCheckboxEvent : function () {
-    "use strict";
     var _this = this;
     this.toDoListDiv.on("click", ".checkbox", function () {
       var $checkboxElement = $(this);
@@ -165,19 +172,13 @@ ToDoManager.prototype = {
 };
 
 $(function () {
-  var nameBlock = $('#name_block'),
-    toDoBlock = $('#todo_block'),
-    createToDoElement = $('#createToDo'),
-    createUserElement = $('#createUser'),
-    userListElement = $('#userList'),
-    toDoListElement = $('#todoList'),
-    fetchedElementList = {
-      "nameBlock" : nameBlock,
-      "toDoBlock" : toDoBlock,
-      "createToDo" : createToDoElement,
-      "createUser" : createUserElement,
-      "userList" : userListElement,
-      "toDoList" : toDoListElement
-    };
-  new ToDoManager(fetchedElementList).bindEvents();
+  var fetchedElementList = {
+    "nameBlock" : $('#name_block'),
+    "toDoBlock" : $('#todo_block'),
+    "createToDo" : $('#createToDo'),
+    "createUser" : $('#createUser'),
+    "userList" : $('#userList'),
+    "toDoList" : $('#todoList')
+  };
+  new ToDoManager(fetchedElementList).init();
 });
