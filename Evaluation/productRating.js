@@ -44,8 +44,9 @@ ProductRatingManager.prototype.createTable = function() {
 ProductRatingManager.prototype.createRestTable = function() {
   var _this = this;
   $.each(this.productList, function(key, productName) {
-    var $row = $("<tr/>"),
-      $cell = $("<td/>").html(new Product(productName).name)
+    var name = new Product(productName).name,
+      $row = $("<tr/>"),
+      $cell = $("<td/>").html(name)
                         .addClass("products")
                         .data("name", productName)
                         .data("rowElement", $row)
@@ -66,8 +67,9 @@ ProductRatingManager.prototype.createFirstRow = function() {
   var $row = $("<tr/>"),
     _this = this,
     $cell1 = $("<td/>").html("").appendTo($row);
-  $.each(this.ratingsList, function(key, value) {
-    var $cell = $("<td/>").html(new Rating(value).criteriaName)
+  $.each (this.ratingsList, function(key, value) {
+    var criteriaName = new Rating(value).criteriaName,
+      $cell = $("<td/>").html(criteriaName)
                          .addClass("ratings")
                          .data("criteriaName", value)
                          .data("index", key)
@@ -84,21 +86,21 @@ ProductRatingManager.prototype.bindEvents = function() {
 };
 
 ProductRatingManager.prototype.highlightRatingElement = function($ratingElement) {
-  if(typeof $ratingElement != 'undefined') {
+  if (typeof $ratingElement != 'undefined') {
     $("td.ratings").removeClass("highlight");
     $ratingElement.addClass("highlight");
   }
 };
-  
+
 ProductRatingManager.prototype.highlightProductElement = function($productElement, $selectedElement) {
-  if(typeof $productElement != 'undefined') {
-    this.unhighlightAlreadySelectedProductCheckbox($productElement.data("rowElement").find(".radio:checked").not($selectedElement));
+  if (typeof $productElement != 'undefined') {
+    this.deSelectSameRowRadioButtons($productElement.data("rowElement").find(".radio:checked").not($selectedElement));
     $("td.products").removeClass("highlight");
     $productElement.addClass("highlight");
-  }  
+  }
 };
 
-ProductRatingManager.prototype.deSelectAlreadyHighlightedCheckbox = function($alreadySelectedElement) {
+ProductRatingManager.prototype.deSelectSameRowRadioButtons = function($alreadySelectedElement) {
   $alreadySelectedElement.attr('checked', false);
 };
 
@@ -127,7 +129,7 @@ ProductRatingManager.prototype.bindRatingsEvent = function() {
     var $this = $(this)
     $(".products, .ratings").removeClass("highlight");
     $this.addClass("highlight");
-    if(typeof $this.data("rowElement") != 'undefined') {
+    if (typeof $this.data("rowElement") != 'undefined') {
       _this.highlightProductElement($this.data("rowElement").find(".radio:checked").data("drinks"), $this);
     } else {
       $checkedElement =$("." + $this.data("index") + ":checked");
