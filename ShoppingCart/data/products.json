@@ -2,21 +2,21 @@
 	"Computer" : {
 		"name" : "Apple MacBook",
 		"text" : "MacBook Pro",
-		"image" : "macbook.jpeg",
+		"image" : "images/macbook.jpeg",
 		"price" : "150000"
 	},
 
 	"Camera" : {
 		"name" : "Nikon DSLR",
 		"text" : "DSLR",
-		"image" : "nikon.jpeg",
+		"image" : "images/nikon.jpeg",
 		"price" : "100000"
 	},
 
 	"Speakers" : {
 		"name" : "Bose",
 		"text" : "Bose",
-		"image" : "bose.jpeg",
+		"image" : "images/bose.jpeg",
 		"price" : "50000"
 	}
 }
