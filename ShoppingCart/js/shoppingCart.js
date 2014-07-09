@@ -52,7 +52,6 @@ Product.prototype = {
     
     // second column Price
     $("<td>", { text : this.productData.price }).data("price", this.productData.price).appendTo($productRow);
-
     
     // third column quantity and fourth column for subtotal
     var $quantityElement = $("<td>").data("price", this.productData.price).html($("<input>", { class : "productQuantity", type : "text", value : quantity })),
@@ -103,6 +102,11 @@ ShoppingCart.prototype = {
     });
   },
 
+  //method to set data on tab
+  setDataOnTab : function (blockObject, blockId) {
+    this.tabElement.find(blockId).data("BlockObject", blockObject);
+  },
+
   //method to add products data to products tab
   populateProductsTab : function () {
     "use strict";
@@ -112,6 +116,8 @@ ShoppingCart.prototype = {
       var $div = new Product(_this.jsonData[itemType]).addToProductTab(itemType);
       $div.appendTo(_this.productBlockElement);
     });
+    this.setDataOnTab(this.productBlockElement, "#product");
+    this.setDataOnTab(this.myCartBlock, "#myCartTab");
   },
 
   //method to bind event on Add To Cart Button
@@ -165,7 +171,7 @@ ShoppingCart.prototype = {
   //method to update the quantity bought in the myCart
   updateQuantityBought : function () {
     "use strict";
-    $("#myCartTab").text("My Cart (" + this.getTotalQuantity() + ")");
+    this.tabElement.find("#myCartTab").text("My Cart (" + this.getTotalQuantity() + ")");
   },
 
   //method to bind event on Remove Button
@@ -182,20 +188,10 @@ ShoppingCart.prototype = {
   //method to bind event on Tabs
   bindTabEvent : function () {
     "use strict";
-    var _this = this;
-    this.tabElement.on("click", "#myCartTab", function() {
-      _this.swapBlockDisplay(_this.myCartBlock, _this.productBlockElement);
+    this.tabElement.on("click", ".tab", function() {
+      $(this).data("BlockObject").show();
+      $(this).siblings("li").data("BlockObject").hide();
     });
-    this.tabElement.on("click", "#product", function() {
-      _this.swapBlockDisplay(_this.productBlockElement, _this.myCartBlock);
-    });
-  },
-
-  //method to change the display of blocks
-  swapBlockDisplay : function (tabBlock1, tabBlock2) {
-    "use strict";
-    tabBlock1.show();
-    tabBlock2.hide();
   },
 
   //method to bind event on quantity change in myCart Tab
